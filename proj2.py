@@ -11,11 +11,8 @@ print('New York Times -- First 10 Story Headings\n')
 html = requests.get("https://www.nytimes.com/").text
 soup = BeautifulSoup(html,"html.parser")
 heading = soup.find_all("h2",class_="story-heading")
-for h in heading[:11]:
-    for child in h.children:
-        if child.name == "time":
-            child.string = ""
-    print (h.get_text(strip=True))
+for h in heading[:10]:
+    print (h.a.string)
 
 #### Problem 2 ####
 print('\n*********** PROBLEM 2 ***********')
