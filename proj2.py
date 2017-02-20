@@ -12,7 +12,10 @@ html = requests.get("https://www.nytimes.com/").text
 soup = BeautifulSoup(html,"html.parser")
 heading = soup.find_all("h2",class_="story-heading")
 for h in heading[:10]:
-    print (h.a.string)
+    try:
+        print (h.a.string)
+    except:
+        print (h.string.strip())
 
 #### Problem 2 ####
 print('\n*********** PROBLEM 2 ***********')
@@ -52,11 +55,11 @@ DIRECTORY_PAGE = "https://www.si.umich.edu/directory?field_person_firstname_valu
 
 i = 1
 for page in range(6):
-    html = requests.get(DIRECTORY_PAGE,params = {'page':page}).text
+    html = requests.get(DIRECTORY_PAGE,params = {'page':page},headers={'User-Agent': 'SI_CLASS'}).text
     soup = BeautifulSoup(html,"html.parser")
     nodes = soup.find_all("a",string = "Contact Details")
     for node in nodes:
-        email_html = requests.get(BASE_URL+node["href"]).text
+        email_html = requests.get(BASE_URL+node["href"],headers={'User-Agent': 'SI_CLASS'}).text
         email_soup = BeautifulSoup(email_html,"html.parser")
         print ("{} {}".format(str(i),email_soup.find(string = re.compile("@umich.edu"))))
         i += 1
